@@ -27,6 +27,10 @@ public class CategoryID extends Identifier {
         return new CategoryID(anId.randomUUID().toString().toLowerCase());
     }
 
+    public String getValue() {
+        return value;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

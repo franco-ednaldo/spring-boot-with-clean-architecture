@@ -1,7 +1,6 @@
 package com.fullcycle.admin.catalogo.application.category.create;
 
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
-import com.fullcycle.admin.catalogo.domain.exceptions.DomainException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,7 +11,6 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -69,7 +67,7 @@ class CreateCategoryUseCaseTest {
 
         final var notification  =  useCase.execute(aCommand).getLeft();
 
-        assertEquals(expectedMessage, notification.getErros().get(0).message());
+        assertEquals(expectedMessage, notification.firstError().message());
         assertEquals(errorCount, notification.getErros().size());
 
         verify(categoryGateway, times(0)).create(any());
