@@ -3,6 +3,7 @@ package com.fullcycle.admin.catalogo.application.category.retrieve;
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
+import com.fullcycle.admin.catalogo.domain.exceptions.DomainException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -49,17 +52,15 @@ class GetCategoryByIdUseCaseTest {
 
     @Test
     void givenAInvalidId_whenCallasDelete_shouldThrowsException() {
-        final var aCategory = Category.newCategory("Filmes", "A categoria mais assistida", true);
-        final var expectedId = aCategory.getId();
+        final var expectedId = CategoryID.from("123456");
+        final var expextedErrorMessage = "";
+        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.empty());
 
-        doThrow(new IllegalStateException("Gateway error"))
-            .when(categoryGateway).deleteById(expectedId);
-
-        Assertions.assertThrows(IllegalStateException.class, () -> {
+        final var expectedException = assertThrows(DomainException.class, () -> {
             this.useCase.execute(expectedId.getValue());
         });
 
-        verify(this.categoryGateway, times(1)).deleteById(expectedId);
+        assertEquals(expextedErrorMessage, expectedException.getMessage());
     }
 
 }
