@@ -1,5 +1,7 @@
 package com.fullcycle.admin.catalogo.application.category.update;
 
+import com.fullcycle.admin.catalogo.application.category.create.CreateCategoryCommand;
+import com.fullcycle.admin.catalogo.application.category.create.DefaultCreateCategoryUseCase;
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,7 +45,7 @@ class UpdateCategoryUseCaseTest {
             expectedName,
             expectedDescription,
             expectedIsActive);
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(aCategory));
+        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(aCategory.clone()));
         when(categoryGateway.update(any())).thenAnswer(returnsFirstArg());
 
         final var actualOutput = useCase.execute(aCommand).get();
@@ -55,13 +58,31 @@ class UpdateCategoryUseCaseTest {
                 && Objects.equals(expectedDescription, aUpdateCategory.getDescription())
                 && Objects.equals(expectedIsActive, aUpdateCategory.isActive())
                 && Objects.equals(expectedId, aUpdateCategory.getId())
-                && aCategory.getUpdatedAt().isBefore(aUpdateCategory.getCreatedAt())
+                && aCategory.getUpdatedAt().isBefore(aUpdateCategory.getUpdatedAt())
                 && Objects.equals(aCategory.getCreatedAt(), aUpdateCategory.getCreatedAt());
         }));
+    }
 
+    @Test
+    void givenAInvalidName_whenCallsUpdateCategory_thenShouldReturnDomainException() {
+        final var aCategory = Category.newCategory("Filme", null, true);
+        final var expectedName = "";
+        final var expectedDescription = "A categoria mais assistida";
+        final var expectedIsActive = true;
+        final var expectedMessage = "'Name' should not be null or empty";
+        final var errorCount = 1;
+        final var expectedId = aCategory.getId();
+        final var aCommand = UpdateCategoryCommand.with(expectedId.getValue(), expectedName, expectedDescription, expectedIsActive);
 
+        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(aCategory.clone()));
+        final var useCase = new DefaultUpdateCategoryUseCase(categoryGateway);
 
+        final var notification = useCase.execute(aCommand).getLeft();
 
+        assertEquals(expectedMessage, notification.firstError().message());
+        assertEquals(errorCount, notification.getErros().size());
+
+        verify(categoryGateway, times(0)).update(any());
     }
 
 }

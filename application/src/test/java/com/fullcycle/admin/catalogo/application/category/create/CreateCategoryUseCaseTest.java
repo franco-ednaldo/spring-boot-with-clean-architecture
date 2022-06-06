@@ -37,8 +37,7 @@ class CreateCategoryUseCaseTest {
 
         when(categoryGateway.create(any())).thenAnswer(returnsFirstArg());
 
-        final var useCase = new DefaultCreateCategoryUseCase(categoryGateway);
-        final var actualOutput = useCase.execute(aCommand).get();
+        final var actualOutput = defaultCreateCategoryUseCase.execute(aCommand).get();
 
         assertNotNull(actualOutput);
         assertNotNull(actualOutput.id());
