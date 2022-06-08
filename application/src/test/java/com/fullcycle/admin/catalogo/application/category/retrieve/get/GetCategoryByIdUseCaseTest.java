@@ -1,10 +1,11 @@
-package com.fullcycle.admin.catalogo.application.category.retrieve;
+package com.fullcycle.admin.catalogo.application.category.retrieve.get;
 
+import com.fullcycle.admin.catalogo.application.category.retrieve.get.CategoryOutput;
+import com.fullcycle.admin.catalogo.application.category.retrieve.get.DefaultGetCategoryByIdUseCase;
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.exceptions.DomainException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,9 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,9 +50,9 @@ class GetCategoryByIdUseCaseTest {
     }
 
     @Test
-    void givenAInvalidId_whenCallasDelete_shouldThrowsException() {
+    void givenAInvalidGetCategory_whenCallasGetCategory_shouldThrowsException() {
         final var expectedId = CategoryID.from("123456");
-        final var expextedErrorMessage = "";
+        final var expextedErrorMessage = "Category with ID 123456 was not found";
         when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.empty());
 
         final var expectedException = assertThrows(DomainException.class, () -> {

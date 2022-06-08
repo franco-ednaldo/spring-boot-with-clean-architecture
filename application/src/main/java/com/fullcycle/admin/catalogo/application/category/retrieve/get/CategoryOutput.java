@@ -1,11 +1,12 @@
-package com.fullcycle.admin.catalogo.application.category.retrieve;
+package com.fullcycle.admin.catalogo.application.category.retrieve.get;
 
 import com.fullcycle.admin.catalogo.domain.category.Category;
+import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 
 import java.time.Instant;
 
 public record CategoryOutput(
-    String id,
+    CategoryID id,
     String aName,
     String aDescription,
     boolean isActive,
@@ -15,7 +16,7 @@ public record CategoryOutput(
 
     public static CategoryOutput from(final Category aCategory) {
         return new CategoryOutput(
-            aCategory.getId().getValue(),
+            aCategory.getId(),
             aCategory.getName(),
             aCategory.getDescription(),
             aCategory.isActive(),
