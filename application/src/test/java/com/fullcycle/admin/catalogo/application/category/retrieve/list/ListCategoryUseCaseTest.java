@@ -4,6 +4,7 @@ import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
 import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -61,12 +63,43 @@ class ListCategoryUseCaseTest {
 
     @Test
     void givenAInvalidQuery_whenCallListCategories_shouldEmptyCategories() {
+        final var categories = List.<Category>of();
+        final var expectedPage = 0;
+        final var expectedPerPage = 10;
+        final var expectedTerms = "";
+        final var exportSort = "createdAt";
+        final var expectedDirection = "asc";
+        final var query = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, exportSort, expectedDirection);
+        final var expectedPagination = new Pagination<>(expectedPage, expectedPerPage, categories.size(), categories);
+        final var expectedItemsCount = 0;
+        final var expectedResult = expectedPagination.map(CategoryListOutPut::from);
 
+        when(this.categoryGateway.findAll(eq(query))).thenReturn(expectedPagination)
+            .thenReturn(expectedPagination);
+
+        final var actualResult = useCase.execute(query);
+
+        assertEquals(expectedItemsCount, actualResult.items().size());
+        assertEquals(expectedResult, actualResult);
+        assertEquals(expectedPage, actualResult.currentPage());
+        assertEquals(expectedPerPage, actualResult.perPage());
+        assertEquals(categories.size(), actualResult.total());
     }
 
     @Test
     void givenAInvalidQuery_whenCallListCategories_shouldThrowsException() {
+        final var expectedPage = 0;
+        final var expectedPerPage = 10;
+        final var expectedTerms = "";
+        final var exportSort = "createdAt";
+        final var expectedDirection = "asc";
+        final var query = new CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, exportSort, expectedDirection);
+        final var expectedMessageError = "Gateway error";
 
+        when(this.categoryGateway.findAll(eq(query))).thenThrow(new IllegalStateException(expectedMessageError));
+
+        final var exception = assertThrows(IllegalStateException.class, () -> useCase.execute(query));
+        assertEquals(expectedMessageError, exception.getMessage());
     }
 
 }
