@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.fullcycle.admin.catalogo.infrastructure.MainTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-06-08T00:20:46" hostname="PPM-SPO-595360.local" time="0.016">
-  <properties/>
-  <testcase name="testCreateMain()" classname="com.fullcycle.admin.catalogo.infrastructure.MainTest" time="0.016"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
