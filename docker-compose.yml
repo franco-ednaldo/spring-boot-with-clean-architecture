@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+    mariadb:
+        platform: linux/amd64
+        container_name: adm_video_mariadb
+        image: mariadb:latest
+        volumes:
+            - ./docker_volume/maridadb:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        command: mysqld --innodb-buffer-pool-size=64M
+        ports:
+            - "3333:3306"
+        networks:
+            - adm-tools
