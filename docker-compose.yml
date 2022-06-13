@@ -9,6 +9,7 @@ services:
             - ./docker_volume/maridadb:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: adm_videos
         command: mysqld --innodb-buffer-pool-size=64M
         ports:
             - "3306:3306"

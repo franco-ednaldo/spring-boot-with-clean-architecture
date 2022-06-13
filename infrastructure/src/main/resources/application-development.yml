@@ -1,11 +1,16 @@
+mariadb:
+    username: root
+    password: root
+    schema: adm_videos
+    url: localhost:3306
+
 server:
     port: 8080
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
         min-response-size: 1024
-    tomcat:
     undertow:
-      threads:
-          worker: 64
-          io: 4
+        threads:
+            worker: 64
+            io: 4
