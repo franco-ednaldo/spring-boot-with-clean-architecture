@@ -3,3 +3,10 @@ mariadb:
     password: ${DATABASE_MARIADB_PASSWORD:root}
     schema: adm_videos
     url: ${DATABASE_MARIADB_URL:localhost:3306}
+
+
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: none
+        show-sql: false
