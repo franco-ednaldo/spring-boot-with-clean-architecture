@@ -31,7 +31,7 @@ public class CategoryEntity {
     @Column(name = "update_at", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant updateAt;
 
-    @Column(name = "update_at", nullable = false, columnDefinition = "DATETIME(6)")
+    @Column(name = "delete_at", columnDefinition = "DATETIME(6)")
     private Instant deleteAt;
 
     public CategoryEntity() {
