@@ -29,4 +29,3 @@ spring:
             "[hibernate.dialect]": org.hibernate.dialect.MariaDB102Dialect
             "[hibernate.generate_statistics]": true
             "[hibernate.connection.provider_disables_autocommit]": true
-

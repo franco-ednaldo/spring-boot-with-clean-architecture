@@ -1,0 +1,11 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 1
+      author: ednaldo
+
+  - include:
+      file: DDL/001_create_category_table.sql
+      relativeToChangelogFile: true
+
+

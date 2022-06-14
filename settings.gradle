@@ -1,4 +1,4 @@
-rootProject.name = 'fc3-admin-catalogo'
+rootProject.name = 'spring-boot-with-clean-architecture'
 include 'domain'
 include 'application'
 include 'infrastructure'

@@ -1,0 +1,4 @@
+CREATE TABLE category(
+ id INT PRIMARY KEY,
+ name VARCHAR(40)
+);

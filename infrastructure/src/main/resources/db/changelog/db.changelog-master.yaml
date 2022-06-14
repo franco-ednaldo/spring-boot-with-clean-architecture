@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: category/master.yaml
+      relativeToChangelogFile: true
