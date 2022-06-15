@@ -50,16 +50,15 @@ public class CategoryEntity {
         );
     }
 
-    public static Category toAggregte(final CategoryEntity aCategory) {
+    public Category toAggregate() {
         return Category.with(
-            CategoryID.from(aCategory.getId()),
-            aCategory.getName(),
-            aCategory.getDescription(),
-            aCategory.getActive(),
-            aCategory.getCreateAt(),
-            aCategory.getUpdateAt(),
-            aCategory.getDeleteAt()
-        );
+            CategoryID.from(this.id),
+            this.getName(),
+            this.getDescription(),
+            this.getActive(),
+            this.getCreateAt(),
+            this.getUpdateAt(),
+            this.getDeleteAt());
     }
 
 
