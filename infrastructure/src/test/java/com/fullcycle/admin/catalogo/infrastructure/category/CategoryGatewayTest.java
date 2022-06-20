@@ -127,26 +127,27 @@ class CategoryGatewayTest {
         assertEquals(3, repository.count());
 
         final var categorySearch = new CategorySearchQuery(0, 1, "", "name", "asc");
+
         final var actualResult = this.categoryGateway.findAll(categorySearch);
         assertEquals(expectedPage, actualResult.currentPage());
         assertEquals(expectedPerPage, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
+        assertEquals(expectedPerPage, actualResult.items().size());
         assertEquals(documentary.getId(), actualResult.items().get(0).getId());
     }
 
     @Test
     public void givenEmptyCategories_whenCallsFindAll_shouldReturnEmptyPage() {
         final var expectedPage = 0;
-        final var expectedPerPage = 1;
+        final var expectedPerPage = 0;
         final var expectedTotal = 0;
 
         final var categorySearch = new CategorySearchQuery(0, 1, "", "name", "asc");
         final var actualResult = this.categoryGateway.findAll(categorySearch);
         assertEquals(expectedPage, actualResult.currentPage());
-        assertEquals(expectedPerPage, actualResult.perPage());
+        assertEquals(1, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
+        assertEquals(expectedPerPage, actualResult.items().size());
     }
 
     @Test
@@ -173,7 +174,7 @@ class CategoryGatewayTest {
         assertEquals(expectedPage, actualResult.currentPage());
         assertEquals(expectedPerPage, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
+        assertEquals(expectedPerPage, actualResult.items().size());
         assertEquals(documentary.getId(), actualResult.items().get(0).getId());
 
         // page 1
@@ -183,7 +184,7 @@ class CategoryGatewayTest {
         assertEquals(expectedPage, actualResult.currentPage());
         assertEquals(expectedPerPage, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
+        assertEquals(expectedPerPage, actualResult.items().size());
         assertEquals(movies.getId(), actualResult.items().get(0).getId());
 
         // page 2
@@ -193,8 +194,8 @@ class CategoryGatewayTest {
         assertEquals(expectedPage, actualResult.currentPage());
         assertEquals(expectedPerPage, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
-        assertEquals(movies.getId(), actualResult.items().get(0).getId());
+        assertEquals(expectedPerPage, actualResult.items().size());
+        assertEquals(series.getId(), actualResult.items().get(0).getId());
     }
 
     @Test
@@ -220,7 +221,7 @@ class CategoryGatewayTest {
         assertEquals(expectedPage, actualResult.currentPage());
         assertEquals(expectedPerPage, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
+        assertEquals(expectedPerPage, actualResult.items().size());
         assertEquals(documentary.getId(), actualResult.items().get(0).getId());
     }
 
@@ -248,7 +249,8 @@ class CategoryGatewayTest {
         assertEquals(expectedPage, actualResult.currentPage());
         assertEquals(expectedPerPage, actualResult.perPage());
         assertEquals(expectedTotal, actualResult.total());
-        assertEquals(expectedPage, actualResult.items().size());
+        assertEquals(expectedPerPage, actualResult.items().size());
         assertEquals(movies.getId(), actualResult.items().get(0).getId());
     }
+
 }

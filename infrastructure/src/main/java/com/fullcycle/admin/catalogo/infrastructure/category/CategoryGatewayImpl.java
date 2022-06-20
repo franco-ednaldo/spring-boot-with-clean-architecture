@@ -5,14 +5,24 @@ import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
 import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
+import com.fullcycle.admin.catalogo.infrastructure.SpecificationUtils;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryEntity;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.Optional;
+
+import static com.fullcycle.admin.catalogo.infrastructure.SpecificationUtils.like;
+import static org.springframework.data.domain.Sort.Direction.fromString;
 
 @Component
 public class CategoryGatewayImpl implements CategoryGateway {
@@ -48,10 +58,31 @@ public class CategoryGatewayImpl implements CategoryGateway {
 
     @Override
     public Pagination<Category> findAll(final CategorySearchQuery search) {
-        return null;
+        final var pageRequest = PageRequest.of(
+            search.page(),
+            search.perPage(),
+            Sort.by(fromString(search.direction()), search.sort()));
+
+        final var specifications = Optional.ofNullable(search.terms())
+            .filter(str -> !str.isBlank())
+            .map(this::getCondition)
+            .orElseGet(() -> Specification.where(null));
+
+        final var pageResult = this.repository.findAll(Specification.where(specifications), pageRequest);
+
+        return new Pagination<>(pageResult.getNumber(), pageResult.getSize(), pageResult.getTotalElements(),
+            pageResult.map(CategoryEntity::toAggregate).toList());
     }
+
+    private Specification<CategoryEntity> getCondition(final String str) {
+        return SpecificationUtils.
+            <CategoryEntity>like("name", str)
+            .or(like("description", str));
+    }
+
 
     private Category save(final Category aCategory) {
         return this.repository.save(CategoryEntity.from(aCategory)).toAggregate();
     }
+
 }
