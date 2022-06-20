@@ -25,17 +25,20 @@ public class CategoryGatewayImpl implements CategoryGateway {
 
     @Override
     public Category create(final Category aCategory) {
-        return this.repository.save(CategoryEntity.from(aCategory)).toAggregate();
+        return save(aCategory);
     }
 
     @Override
     public Category update(final Category aCategory) {
-        return this.repository.save(CategoryEntity.from(aCategory)).toAggregate();
+        return save(aCategory);
     }
 
     @Override
     public void deleteById(final CategoryID anId) {
-        this.repository.deleteById(anId.getValue());
+        final var id = anId.getValue();
+        if (this.repository.existsById(id)) {
+            this.repository.deleteById(anId.getValue());
+        }
     }
 
     @Override
@@ -44,7 +47,11 @@ public class CategoryGatewayImpl implements CategoryGateway {
     }
 
     @Override
-    public Pagination<Category> findAll(final CategorySearchQuery serach) {
+    public Pagination<Category> findAll(final CategorySearchQuery search) {
         return null;
+    }
+
+    private Category save(final Category aCategory) {
+        return this.repository.save(CategoryEntity.from(aCategory)).toAggregate();
     }
 }
