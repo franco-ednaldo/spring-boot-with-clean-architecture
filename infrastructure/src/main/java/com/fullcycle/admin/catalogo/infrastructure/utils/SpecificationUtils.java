@@ -1,4 +1,4 @@
-package com.fullcycle.admin.catalogo.infrastructure;
+package com.fullcycle.admin.catalogo.infrastructure.utils;
 
 import org.springframework.data.jpa.domain.Specification;
 

@@ -4,7 +4,7 @@ import com.fullcycle.admin.catalogo.application.UnitUseCase;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 
-public class DefaultDeleteCategoryUseCase extends UnitUseCase<String> {
+public class DefaultDeleteCategoryUseCase extends DeleteCategoryUseCase {
     private final CategoryGateway categoryGateway;
 
     public DefaultDeleteCategoryUseCase(final CategoryGateway categoryGateway) {

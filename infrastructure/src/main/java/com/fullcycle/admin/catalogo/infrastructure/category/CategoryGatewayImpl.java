@@ -5,23 +5,17 @@ import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
 import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
-import com.fullcycle.admin.catalogo.infrastructure.SpecificationUtils;
+import com.fullcycle.admin.catalogo.infrastructure.utils.SpecificationUtils;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryEntity;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.Optional;
 
-import static com.fullcycle.admin.catalogo.infrastructure.SpecificationUtils.like;
+import static com.fullcycle.admin.catalogo.infrastructure.utils.SpecificationUtils.like;
 import static org.springframework.data.domain.Sort.Direction.fromString;
 
 @Component
